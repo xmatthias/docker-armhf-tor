@@ -11,10 +11,9 @@
 #
 # This container exposes 2 identical ports (9050, 9051) - use to have separate circuits
 #
-FROM container4armhf/armhf-alpine:latest
+FROM alpine:edge
 
-RUN echo "http://nl.alpinelinux.org/alpine/edge/community" >> /etc/apk/repositories  \
-    && apk --no-cache add \
+RUN apk --no-cache add \
     tor \
     && mkdir -p /etc/tor/ \
     && cat /dev/null > /etc/tor/torrc.default \
@@ -24,6 +23,7 @@ RUN echo "http://nl.alpinelinux.org/alpine/edge/community" >> /etc/apk/repositor
     && echo "SocksPort 0.0.0.0:9051" >> /etc/tor/torrc.default \
 #   && echo "DNSPort 53530" > /etc/tor/torrc.default \
 #   && echo "DNSPort 9053 " > /etc/tor/torrc.default \
+#   && echo "MaxCircuitDirtiness 10 " > /etc/tor/torrc.default \
     && chown -R tor /etc/tor
 
 # expose socks port
